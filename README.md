@@ -20,14 +20,13 @@
 
 # 📊 Model Results
 
-Based on the training on the Iris dataset, the models achieved the following performance:
+Based on the training on the Iris dataset, the models achieved the following performance:   
 
-   Models        Silhouette Score                  Best For
+Models =   K-Means	 , DBSCAN   
 
-1) K-Means	       0.4590	                   General grouping and new predictions
+Silhouette Score  = 0.4590	, 0.3492
 
-2) DBSCAN   	     0.3492	                   Identifying outliers and dense regions
-
+Best For: General grouping and new predictions  , Identifying outliers and dense regions
 
 # How to Use
 
