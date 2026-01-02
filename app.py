@@ -11,38 +11,39 @@ def load_files():
         kmeans = pickle.load(open('kmeans_model.pkl', 'rb'))
         dbscan = pickle.load(open('dbscan_model.pkl', 'rb'))
         return scaler, kmeans, dbscan
-    except:
+    except Exception as e:
         return None, None, None
 
 scaler, kmeans, dbscan = load_files()
 
 # --- 2. UI Setup ---
-st.set_page_config(page_title="Iris Clustering App")
+st.set_page_config(page_title="Iris Clustering App", layout="centered")
 st.title("🌸 Iris Flower Cluster Predictor")
-st.write("Enter flower measurements to identify its cluster using K-Means.")
+st.write("Enter flower measurements to identify its cluster and species.")
 
 # --- 3. Sidebar: DBSCAN Analysis ---
 st.sidebar.header("Model Comparison")
-st.sidebar.write("Based on the original dataset analysis:")
+st.sidebar.write("Performance from Training Phase:")
 
-# Instead of reading CSV, we show the results from your training
+# Silhouette scores based on your training
 st.sidebar.info(f"""
 - **K-Means Score:** 0.4590
 - **DBSCAN Score:** 0.3492
 """)
 
-st.sidebar.warning("Note: K-Means is used for prediction because DBSCAN does not support the .predict() method for new data.")
+st.sidebar.warning("Note: K-Means is used for prediction. DBSCAN is shown for comparison only.")
 
 # --- 4. Main Input Fields ---
+st.subheader("Input Flower Measurements")
 col1, col2 = st.columns(2)
 
 with col1:
-    sl = st.number_input("Sepal Length", min_value=0.0, value=5.1)
-    sw = st.number_input("Sepal Width", min_value=0.0, value=3.5)
+    sl = st.number_input("Sepal Length (cm)", min_value=0.0, value=5.1, step=0.1)
+    sw = st.number_input("Sepal Width (cm)", min_value=0.0, value=3.5, step=0.1)
 
 with col2:
-    pl = st.number_input("Petal Length", min_value=0.0, value=1.4)
-    pw = st.number_input("Petal Width", min_value=0.0, value=0.2)
+    pl = st.number_input("Petal Length (cm)", min_value=0.0, value=1.4, step=0.1)
+    pw = st.number_input("Petal Width (cm)", min_value=0.0, value=0.2, step=0.1)
 
 # --- 5. Prediction Logic ---
 if st.button("Identify Cluster"):
@@ -56,11 +57,18 @@ if st.button("Identify Cluster"):
         # Predict using K-Means
         prediction = kmeans.predict(scaled_input)[0]
         
+        # Updated Mapping based on your model's output
+        # According to your test: Cluster 1 is Setosa
+        species_map = {
+            1: "Setosa (Smallest)", 
+            0: "Versicolor (Medium)", 
+            2: "Virginica (Largest)"
+        }
+        
+        current_species = species_map.get(prediction, "Unknown")
+        
         # Show Results
         st.success(f"### Result: Cluster {prediction}")
-        
-        # Show Species Hint
-        species = {0: "Setosa", 1: "Versicolor", 2: "Virginica"}
-        st.write(f"This flower characteristics match **Iris-{species.get(prediction, 'Unknown')}**.")
+        st.markdown(f"**Species Identification:** This flower matches the characteristics of **Iris-{current_species}**.")
     else:
-        st.error("Error: Could not find 'scaler.pkl' or 'kmeans_model.pkl' on GitHub.")
+        st.error("Error: Could not load 'scaler.pkl' or 'kmeans_model.pkl'. Please check if they are in your GitHub repository.")
