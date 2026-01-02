@@ -22,11 +22,13 @@
 
 Based on the training on the Iris dataset, the models achieved the following performance:
 
-   **Algorithm**	    **Silhouette Score**         	   **Best For**
-     K-Means               0.4590              General grouping and new predictions
-     DBSCAN                0.3492              Identifying outliers and dense regions
+   Models        Silhouette Score                  Best For
 
-     
+1) K-Means	       0.4590	                   General grouping and new predictions
+
+2) DBSCAN   	     0.3492	                   Identifying outliers and dense regions
+
+
 # How to Use
 
 1) Enter the Sepal Length, Sepal Width, Petal Length, and Petal Width.
