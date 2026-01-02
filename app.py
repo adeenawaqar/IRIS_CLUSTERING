@@ -60,9 +60,9 @@ if st.button("Identify Cluster"):
         # Updated Mapping based on your model's output
         # According to your test: Cluster 1 is Setosa
         species_map = {
-            1: "Setosa (Smallest)", 
-            0: "Versicolor (Medium)", 
-            2: "Virginica (Largest)"
+            1: "Setosa", 
+            0: "Versicolor", 
+            2: "Virginica"
         }
         
         current_species = species_map.get(prediction, "Unknown")
@@ -72,3 +72,4 @@ if st.button("Identify Cluster"):
         st.markdown(f"**Species Identification:** This flower matches the characteristics of **Iris-{current_species}**.")
     else:
         st.error("Error: Could not load 'scaler.pkl' or 'kmeans_model.pkl'. Please check if they are in your GitHub repository.")
+
